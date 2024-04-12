@@ -11,7 +11,7 @@ const deleteSubscriptionHandler = require("./lambda_functions/deleteSubscription
 const getSubscriptionByUsernameHandler = require("./lambda_functions/getSubscriptionByUsernameHandler");
 
 const app = express();
-const port = 80;
+const port = 8080;
 
 // Middleware to parse JSON request body
 app.use(bodyParser.json());
