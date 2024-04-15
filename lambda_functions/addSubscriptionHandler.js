@@ -1,10 +1,12 @@
 const AWS = require("aws-sdk");
+const { v4: uuidv4 } = require('uuid'); // Import UUID generator
+
 AWS.config.update({
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
     sessionToken: process.env.AWS_SESSION_TOKEN,
     region: "us-east-1",
-  });
+});
 
 // Create a new DynamoDB instance
 const dynamodb = new AWS.DynamoDB();
@@ -12,8 +14,12 @@ const dynamodb = new AWS.DynamoDB();
 module.exports = function addSubscriptionHandler(req, res) {
     const { username, musicYear, web_url, artist, img_url, title } = req.body;
 
+    // Generate a UUID for the subscription
+    const subscriptionId = uuidv4();
+
     // Define the item to be added to the subscription table
     const item = {
+        'subscriptionId': { 'S': subscriptionId }, // Unique identifier
         'username': { 'S': username },
         'year': { 'N': musicYear.toString() }, // Sort key attribute
         'web_url': { 'S': web_url },
